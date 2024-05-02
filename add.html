@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add</title>
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+<div class="Home">
+  <div class="NavigationBar">
+    <div>
+      <a href="index.html" class="Logo">Guitar Inventory Management</a>
+    </div>
+    <div >
+      <a href="search.html" class="nav-item">Search</a>
+      <a href="about.html" class="nav-item">About</a>
+      <a href="add.html" class="nav-item">Add</a>
+      <a href="login.html" class="nav-item">Login</a>
+    </div>
+  </div>
+  <div class="SerialNumber" style="left: 102px; top: 275px; position: absolute; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">Serial number:</div>
+  <input class="Frame1" style="width: 618px; padding: 10px; left: 345px; top: 266px; position: absolute; border-radius: 5px; border: 1px black solid"></input>
+  <div class="Price" style="left: 109px; top: 366px; position: absolute; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">Price:</div>
+  <div class="Builder" style="left: 109px; top: 457px; position: absolute; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">Builder:</div>
+  <div class="Model" style="left: 109px; top: 549px; position: absolute; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">Model:</div>
+  <div class="Type" style="left: 109px; top: 641px; position: absolute; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">Type:</div>
+  <div class="BackWood" style="left: 109px; top: 733px; position: absolute; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">Back wood:</div>
+  <div class="TopWood" style="left: 102px; top: 825px; position: absolute; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">Top wood:</div>
+  <input class="frame2" style="width: 618px; padding: 10px; left: 352px; top: 357px; position: absolute; border-radius: 5px; border: 1px black solid"></input>
+  <input class="Frame3" style="width: 618px; padding: 10px; left: 352px; top: 448px; position: absolute; border-radius: 5px; border: 1px black solid"></input>
+  <input class="Frame4" style="width: 618px; padding: 10px; left: 352px; top: 540px; position: absolute; border-radius: 5px; border: 1px black solid"></input>
+  <input class="Frame5" style="width: 618px; padding: 10px; left: 352px; top: 632px; position: absolute; border-radius: 5px; border: 1px black solid"></input>
+  <input class="Frame6" style="width: 618px; padding: 10px; left: 352px; top: 724px; position: absolute; border-radius: 5px; border: 1px black solid"></input>
+  <input class="Frame7" style="width: 618px; padding: 10px; left: 345px; top: 816px; position: absolute; border-radius: 5px; border: 1px black solid"></input>
+  <div class="Button" onclick="checkFieldsAndNotify()" style="cursor: pointer; padding-left: 30px; padding-right: 30px; padding-top: 10px; padding-bottom: 10px; left: 686px; top: 917px; position: absolute; opacity: 0.80; background: #CDB38C; border-radius: 8px; justify-content: center; align-items: center; gap: 10px; display: inline-flex" style="padding-left: 30px; padding-right: 30px; padding-top: 10px; padding-bottom: 10px; left: 686px; top: 917px; position: absolute; opacity: 0.80; background: #CDB38C; border-radius: 8px; justify-content: center; align-items: center; gap: 10px; display: inline-flex">
+    <div class="Button" style="color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">Add the guitar</div>
+  </div>
+</div>
+</body>
+<script src="register.js"></script>
+<script>
+  const url = configuration.host();
+  function checkFieldsAndNotify() {
+    var inputs = document.querySelectorAll('.Home input');
+    var allFilled = true;
+
+    for (var i = 0; i < inputs.length; i++) {
+      if (inputs[i].value.trim() === '') {
+        allFilled = false;
+        break;
+      }
+    }
+
+    var guitarData = {
+      serialNumber: inputs[0].value,
+      price: parseFloat(inputs[1].value),
+      builder: inputs[2].value,
+      model: inputs[3].value,
+      type: inputs[4].value,
+      backWood: inputs[5].value,
+      topWood: inputs[6].value
+    };
+
+    if (allFilled) {
+      fetch(url+'/inventory/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${configuration.token()}`
+        },
+        body: JSON.stringify(guitarData),
+      })
+              .then(response => {
+                if (response.ok) {
+                  return response.json();
+                }
+                throw new Error('Network response was not ok.');
+              })
+              .then(data => {
+                alert('Guitar successfully added.');
+              })
+              .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+                alert('Failed to add guitar.');
+              });
+    } else {
+      alert('Please fill in all fields');
+    }
+  }
+</script>
+</html>

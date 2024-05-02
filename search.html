@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+<div class="NavigationBar">
+  <div>
+    <a href="index.html" class="Logo">Guitar Inventory Management</a>
+  </div>
+  <div >
+    <a href="search.html" class="nav-item">Search</a>
+    <a href="about.html" class="nav-item">About</a>
+    <a href="add.html" class="nav-item">Add</a>
+    <a href="login.html" class="nav-item">Login</a>
+  </div>
+</div>
+<div style="position: absolute; left: 102px; top: 275px; color: black; font-size: 32px; font-family: Inter; font-weight: 700;">Builder:</div>
+<input id="builderInput" class="Frame1" style="width: 618px; padding: 10px; position: absolute; left: 345px; top: 266px; border-radius: 5px; border: 1px black solid">
+
+<div style="position: absolute; left: 102px; top: 366px; color: black; font-size: 32px; font-family: Inter; font-weight: 700;">Model:</div>
+<input id="modelInput" class="Frame2" style="width: 618px; padding: 10px; position: absolute; left: 345px; top: 357px; border-radius: 5px; border: 1px black solid">
+
+<div style="position: absolute; left: 102px; top: 457px; color: black; font-size: 32px; font-family: Inter; font-weight: 700;">Type:</div>
+<input id="typeInput" class="Frame3" style="width: 618px; padding: 10px; position: absolute; left: 345px; top: 448px; border-radius: 5px; border: 1px black solid">
+
+<div style="position: absolute; left: 102px; top: 549px; color: black; font-size: 32px; font-family: Inter; font-weight: 700;">Back Wood:</div>
+<input id="backWoodInput" class="Frame4" style="width: 618px; padding: 10px; position: absolute; left: 345px; top: 540px; border-radius: 5px; border: 1px black solid">
+
+<div style="position: absolute; left: 102px; top: 641px; color: black; font-size: 32px; font-family: Inter; font-weight: 700;">Top Wood:</div>
+<input id="topWoodInput" class="Frame5" style="width: 618px; padding: 10px; position: absolute; left: 345px; top: 632px; border-radius: 5px; border: 1px black solid">
+
+<div id="searchButton" class="Button" onclick="fetchGuitars()" style="cursor: pointer; padding: 20px; position: absolute; left: 686px; top: 700px; opacity: 0.80; background: #CDB38C; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: black; font-size: 32px; font-family: Inter; font-weight: 700;">Search</div>
+
+<table id="searchResults" style="position: absolute; left: 102px; top: 750px; width: 90%; border: 1px black solid;">
+    <tr>
+        <th>Serial Number</th>
+        <th>Builder</th>
+        <th>Model</th>
+        <th>Type</th>
+        <th>Back Wood</th>
+        <th>Top Wood</th>
+        <th>Price</th>
+    </tr>
+</table>
+<script src="register.js"></script>
+<script>
+    const url = configuration.host();
+
+    function fetchGuitars() {
+        const guitarData = {
+            builder: document.getElementById('builderInput').value,
+            model: document.getElementById('modelInput').value,
+            type: document.getElementById('typeInput').value,
+            backWood: document.getElementById('backWoodInput').value,
+            topWood: document.getElementById('topWoodInput').value,
+        };
+
+        const queryString = new URLSearchParams(guitarData).toString();
+        const headers = {
+          headers: {'Authorization': `Bearer ${configuration.token()}`}
+        };
+        fetch(`${url}/inventory/search?${queryString}`, headers)
+            .then(response => response.json())
+            .then(data => {
+                displayResults(data);
+            })
+            .catch(error => console.error('Error fetching guitars:', error));
+    }
+
+    function displayResults(guitars) {
+        const table = document.getElementById('searchResults');
+        table.innerHTML = '<tr><th>Serial Number</th><th>Builder</th><th>Model</th><th>Type</th><th>Back Wood</th><th>Top Wood</th><th>Price</th></tr>';
+        guitars.forEach(guitar => {
+            const row = `<tr>
+            <td>${guitar.serialNumber}</td>
+            <td>${guitar.builder}</td>
+            <td>${guitar.model}</td>
+            <td>${guitar.type}</td>
+            <td>${guitar.backWood}</td>
+            <td>${guitar.topWood}</td>
+            <td>${guitar.price}</td>
+            </tr>`;
+            table.innerHTML += row;
+        });
+    }
+</script>
+</body>
+</html>

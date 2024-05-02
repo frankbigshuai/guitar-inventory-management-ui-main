@@ -1,0 +1,78 @@
+/* styles.css */
+body,
+.Home {
+    position: relative;
+    background: #F8EACA;
+}
+
+.Guitar1 {
+    width: 733px;
+    height: 571px;
+    position: relative;
+    left: 295px;
+    top: 264px;
+}
+
+.NavigationBar {
+    height: 57px;
+    position: relative;
+    top: 58px;
+    display: flex;
+    justify-content: space-between; /* Align items to the left and right */
+    align-items: center;
+}
+.Logo{
+    justify-content: left;
+    width: 223px;
+    height: 57px;
+    color: #CE6D46;
+    font-size: 24px;
+    font-family: Inter;
+    font-weight: 700;
+    word-wrap: break-word;
+    text-decoration: none;
+
+}
+
+.nav-item{
+    justify-content: right;
+    width: 102px;
+    height: 45px;
+    color: black;
+    font-size: 32px;
+    font-family: Inter;
+    font-weight: 700;
+    word-wrap: break-word;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+.GuitarInventoryManagement, .Search, .About, .Add {
+    height: 45px; /* Adjust based on content */
+}
+
+.GuitarInventoryManagement {
+    width: 223px;
+    color: #CE6D46;
+}
+
+.Search {
+    width: 214px;
+}
+
+.About, .Add {
+    width: 102px;
+}
+.frame{
+    width: 618px;
+    padding: 10px;
+    left: 352px;
+    top:357px;
+    position: absolute;
+    border-radius: 5px;
+    border: 1px black solid;
+}
+
+.topwood{
+left: 102px; top: 825px; position: absolute; color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word"
+}
